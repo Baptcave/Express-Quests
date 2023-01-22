@@ -1,10 +1,10 @@
 const database = require('./database');
 
-const getMovies = (req, res) => {
+const getUsers = (req, res) => {
   database
-    .query('SELECT * FROM movies')
-    .then(([movies]) => {
-        res.status(200).json(movies);
+    .query('SELECT * FROM users')
+    .then(([users]) => {
+        res.status(200).json(users);
     })
     .catch((err) => {
         console.error(err);
@@ -12,16 +12,16 @@ const getMovies = (req, res) => {
     });
 };
 
-const getMovieById = (req, res) => {
+const getUserById = (req, res) => {
   const id = parseInt(req.params.id);
 
   database
-    .query('SELECT * FROM movies WHERE id = ?', [id])
-    .then(([movies, ...rest]) => {
-        if (movies[0]) {
-          res.status(200).json(movies[0]);
+    .query('SELECT * FROM users WHERE id = ?', [id])
+    .then(([users]) => {
+        if (users[0]) {
+          res.status(200).json(users[0]);
         } else {
-          res.status(404).send('Could not find movie')
+          res.status(404).send('User doesn\'t exist')
         }
     })
     .catch((err) => {
@@ -31,6 +31,6 @@ const getMovieById = (req, res) => {
 };
 
 module.exports = {
-  getMovies,
-  getMovieById,
+  getUsers,
+  getUserById,
 };
