@@ -30,7 +30,22 @@ const getUserById = (req, res) => {
     });
 };
 
+const postUser = (req, res) => {
+  const {firstname, lastname, email, city, language} = req.body;
+
+  database
+    .query('INSERT INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)', [firstname, lastname, email, city, language])
+    .then(([result]) => {
+      res.location('/api/users/?', [result.insertId]).sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('Error creating this user');
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
+  postUser,
 };
